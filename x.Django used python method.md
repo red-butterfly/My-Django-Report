@@ -14,11 +14,11 @@ python本身已经加入了三元条件判断 condition？true_part:false_part
 ###关于python的下划线  
 #####单下划线直接使用
 - 解释器中使用
-- 作为一个临时名称
+- 作为一个临时名称(实用！)
 - 国际化
-#####命名-单下划线  
+#####命名-以单下划线  
 无论函数还是变量，一般表示私有，供内部使用。类似惯例，但是也有实际作用，即使用from XXX import *时，“_”开头的不会被导入  
-#####命名-双下划线 
+#####命名-以双下划线 
 这种用法是为了避免与子类定义的名称冲突。   
 #####命名-前后双下划线     
 这种用法表示Python中特殊的方法名。虽然你也可以编写自己的特殊方法名，但不要这样做。   
@@ -94,4 +94,97 @@ Hello, hanfei , 3 access!
         count[0]+=1
 ```
 ###动态导入模块importlib
-使用importlib模块的import_module方法就可以实现动态的导入。importlib.import_module('模块名称')   
+使用importlib模块的import_module方法就可以实现动态的导入。importlib.import_module('模块名称')    
+###join的用法  
+join()：    连接字符串数组。将字符串、元组、列表中的元素以指定的字符(分隔符)连接生成一个新的字符串;    
+os.path.join()：  将多个路径组合后返回;    
+###Python中的 \__all__和\__path__    
+这两个变量主要用在包目录的__init__.py中   
+1. \__init__.py的__all__变量
+\__all__指定的是指此包被import \* 的时候, 哪些模块会被import进来
+2. \__init__.py的__path__变量
+\__path__指定了包的搜索路径,\__init__.py的常用变量\__path__, 默认情况下只有一个元素(即\__path__[0]), 就是当前包的路径, 修改\__path__, 可以修改此包内的搜索路径.   
+###pkgutil.iter_modules(path=None,prefix=)    
+利用pkgutil.iter_modules可以获取path目录下，所有的模块，并判断其是否是一个package，例如     
+```
+import pkgutil
+import email
+
+package = email
+for importer, modname, ispkg in pkgutil.iter_modules(package.__path__):
+    print "Found submodule %s (is a package: %s)" % (modname, ispkg)
+```
+其中，importer是模块的发现方法，modname是email目录下所有的
+###生成默认键值的字典    
+例如：
+```
+dictnum = {num:1 for num in range(10)}
+
+result：
+{0: 1, 1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 1, 7: 1, 8: 1, 9: 1}
+```
+###内建函数vars
+dir()和vars()的区别就是dir()只打印属性（属性,属性......）而vars()则打印属性与属性的值（属性：属性值......）   
+###OS模块函数    
+os.getcwd()获取当前工作目录；   
+os.makedirs()创建文件夹；   
+os.walk() 遍历目录下的文件和目录；  
+
+###map、reduce、filter、lambda、列表推导式   
+Map函数：
+原型：map(function, sequence)，作用是将一个列表映射到另一个列表，
+使用方法：
+```
+map(lambda x: x**2, range(1,10))
+Out[3]: [1, 4, 9, 16, 25, 36, 49, 64, 81]
+```
+Reduce函数
+原型：reduce(function, sequence, startValue)，作用是将一个列表归纳为一个输出，
+使用方法：
+```
+reduce(lambda x,y: x+y,range(1,10))
+Out[7]: 45
+reduce(lambda x,y: x+y,range(1,10),10)
+Out[8]: 55
+```
+Filter函数
+原型：filter(function, sequence)，作用是按照所定义的函数过滤掉列表中的一些元素，
+使用方法：
+```
+filter(lambda x: x%2!=0,range(1,10))
+Out[5]: [1, 3, 5, 7, 9]
+```
+记住：这里的function必须返回布尔值。
+
+Lambda函数
+原型：lambda <参数>: 函数体，隐函数，定义一些简单的操作，
+使用方法：
+```
+f3 = lambda x: x**2
+f3(2)
+Out[10]: 4
+```
+还可以结合map、reduce、filter来使用，如：
+
+列表推导式
+基本形式：[x for item in sequence <if (conditions)>], 这里x表示对item的操作，
+使用方法：
+```
+[i**2 for i in l]
+Out[12]: [1, 4, 9, 16, 25, 36, 49, 64, 81]
+```
+字典设置默认值
+python字典中设置条目默认值在有些时候非常有用，例如初始化一个字典的时候。
+使用方法：
+```
+x = {}
+x.setdefault(1,0)
+Out[15]: 0
+x[2] = 10
+x
+Out[17]: {1: 0, 2: 10}
+x.setdefault(2,1)
+Out[18]: 10
+```    
+###方法title
+title() 方法返回"标题化"的字符串,就是说所有单词都是以大写开始，其余字母均为小写。    
