@@ -125,10 +125,22 @@ result：
 ```
 ###内建函数vars
 dir()和vars()的区别就是dir()只打印属性（属性,属性......）而vars()则打印属性与属性的值（属性：属性值......）   
+
+
 ###OS模块函数    
-os.getcwd()获取当前工作目录；   
-os.makedirs()创建文件夹；   
-os.walk() 遍历目录下的文件和目录；  
+* os.getcwd()获取当前工作目录；   
+* os.makedirs()创建文件夹；   
+* os.walk() 遍历目录下的文件和目录；  
+* os.environ 系统环境变量的列表；   
+* os.spawnve()  启动新进程，django的runserver内就是通过这个函数实现自动重载的；   
+
+
+###sys模块   
+* sys.executable python解释器的路径，一般来说，就是/usr/bin/python
+* sys.exc_info()     获取当前正在处理的异常类,exc_type、exc_value、exc_traceback当前处理的异常详细信息    
+* sys.platform       返回操作系统平台名称    
+
+
 
 ###map、reduce、filter、lambda、列表推导式   
 Map函数：
