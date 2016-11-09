@@ -200,3 +200,49 @@ Out[18]: 10
 ```    
 ###方法title
 title() 方法返回"标题化"的字符串,就是说所有单词都是以大写开始，其余字母均为小写。    
+
+###type动态创建类
+在django源码里，遇到一个语句，一脸懵逼！
+```
+httpd_cls = type(str('WSGIServer'), (socketserver.ThreadingMixIn, WSGIServer), {})
+```
+通过查资料得知，type除了能用来判断类之外，还能用来创建类；   
+```
+type(类名,
+     父类名的元组 (针对继承情况,可以为空),
+     包含属性的字典(名称和值))
+```
+例如：   
+```
+class Foo(object):
+    bar = True
+
+Foo = type('Foo', (), {'bar':True}) #等价于上面的定义 
+```
+可以用来继承，例如：
+```
+class FooChild(Foo):
+    pass
+
+FooChild = type('FooChild', (Foo,), {}) #等价于上面的定义
+```
+也就是说，开头说的那句相当于：
+```
+class httpd_cls(socketserver.ThreadingMixIn, WSGIServer):   
+    pass
+```   
+
+
+要查看一个类型的父类，查看属性：__bases__;
+要看一个实例的类型，查看属性：__class__;    
+
+###模块collections    
+Python拥有一些内置的数据类型，比如str, int, list, tuple, dict等， collections模块在这些内置数据类型的基础上，提供了几个额外的数据类型：   
+
+* namedtuple(): 生成可以使用名字来访问元素内容的tuple子类
+* deque: 双端队列，可以快速的从另外一侧追加和推出对象
+* Counter: 计数器，主要用来计数
+* OrderedDict: 有序字典
+* defaultdict: 带有默认值的字典    
+
+
